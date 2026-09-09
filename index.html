@@ -104,6 +104,14 @@
     opacity:0.95;
   }
 
+  /* Mobile: run a single video only (two simultaneous autoplaying videos
+     commonly fail silently on phones). Foreground video switches to cover
+     so there's no letterbox gap without the blurred backdrop layer. */
+  @media (max-width: 767px) {
+    .hero-video-bg { display:none; }
+    .hero-video-fg { object-fit:cover; opacity:1; }
+  }
+
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: #05070d; }
   ::-webkit-scrollbar-thumb { background: #c9a35a; border-radius: 10px; }
@@ -145,10 +153,10 @@
 
 <!-- ============ HERO ============ -->
 <section class="relative w-full h-screen flex items-center justify-center overflow-hidden">
-  <video autoplay muted playsinline loop class="hero-video-bg" aria-hidden="true">
+  <video autoplay muted playsinline webkit-playsinline="true" preload="auto" loop class="hero-video-bg" aria-hidden="true">
     <source src="analyst-bg.mp4" type="video/mp4">
   </video>
-  <video autoplay muted playsinline loop class="hero-video-fg">
+  <video id="heroFgVideo" autoplay muted playsinline webkit-playsinline="true" preload="auto" loop class="hero-video-fg">
     <source src="analyst-bg.mp4" type="video/mp4">
   </video>
 
@@ -344,6 +352,20 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ===== MOBILE AUTOPLAY FALLBACK =====
+     Some mobile browsers ignore the autoplay attribute even when muted.
+     Force play on load, and again on first touch as a last resort. */
+  document.querySelectorAll('video').forEach(v => {
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    v.addEventListener('loadeddata', tryPlay);
+  });
+  ['touchstart','click'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      document.querySelectorAll('video').forEach(v => { if (v.paused) v.play().catch(() => {}); });
+    }, { once: true, passive: true });
+  });
 
   /* ===== NAV SCROLL STATE ===== */
   window.addEventListener('scroll', () => {
