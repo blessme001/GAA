@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Analyst Academy — Build the Skills That Move Your Career Forward</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: { DEFAULT:'#0a0f1a', deep:'#05070d', mid:'#111a2b', light:'#1c2b45' },
+          paper: { DEFAULT:'#f1ede3', dim:'#c9c2b0', bright:'#f7f4ec' },
+          gold: { DEFAULT:'#c9a35a', light:'#e8c887', bright:'#f2d9a3' },
+        },
+        fontFamily: {
+          display: ['Sora','sans-serif'],
+          body: ['Inter','sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: linear-gradient(160deg, #05070d 0%, #0a0f1a 40%, #1c2b45 100%);
+    font-family: 'Inter', sans-serif;
+    color: #f1ede3;
+    overflow-x: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  /* ===== GLASSMORPHISM CORE ===== */
+  .glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .glass-gold {
+    background: rgba(201,163,90,0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(201,163,90,0.28);
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all .4s cubic-bezier(.4,0,.2,1);
+  }
+  .glass-card:hover {
+    border-color: rgba(201,163,90,0.4);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(201,163,90,0.1);
+  }
+  .glass-nav {
+    background: rgba(5,7,13,0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .grad-text {
+    background: linear-gradient(92.55deg, #f2d9a3 0%, #c9a35a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .font-display { font-family: 'Sora', sans-serif; }
+
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.7);} }
+  .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+  .reveal { opacity:0; transform:translateY(36px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @keyframes flow-h { 0%{transform:translateX(-100%);} 100%{transform:translateX(100%);} }
+  @keyframes flow-v { 0%{transform:translateY(-100%);} 100%{transform:translateY(100%);} }
+  .grid-line { position:absolute; background:linear-gradient(90deg,transparent,rgba(201,163,90,.5) 50%,transparent); animation:flow-h 8s linear infinite; }
+  .grid-line.vertical { width:1px; height:100%; background:linear-gradient(180deg,transparent,rgba(201,163,90,.4) 50%,transparent); animation:flow-v 8s linear infinite; }
+
+  .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55; z-index:0; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #05070d; }
+  ::-webkit-scrollbar-thumb { background: #c9a35a; border-radius: 10px; }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid #e8c887; outline-offset: 2px; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVBAR ============ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5 font-display font-extrabold text-lg tracking-wide">
+      <svg width="28" height="28" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" stroke="#c9a35a" stroke-opacity="0.6"/>
+        <path d="M9 20L15 8L21 20" stroke="#e8c887" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M11.2 15.6H18.8" stroke="#e8c887" stroke-width="1.5"/>
+      </svg>
+      <span class="grad-text">GAA</span><span class="text-paper"> ACADEMY</span>
+    </a>
+    <ul class="hidden md:flex gap-8 text-xs uppercase tracking-widest font-medium text-paper/60">
+      <li><a href="#about" class="hover:text-gold-light transition">About</a></li>
+      <li><a href="#programmes" class="hover:text-gold-light transition">Programmes</a></li>
+      <li><a href="#contact" class="hover:text-gold-light transition">Contact</a></li>
+    </ul>
+    <a href="#programmes" class="hidden md:inline-block glass-gold px-5 py-2 rounded-lg text-xs font-display font-bold uppercase tracking-wider text-gold-light hover:bg-gold/20 transition">Enroll Now</a>
+    <button id="hamburger" aria-label="Toggle menu" class="md:hidden flex flex-col gap-1.5 w-7">
+      <span class="block h-0.5 bg-paper rounded-full transition"></span>
+      <span class="block h-0.5 bg-paper rounded-full transition"></span>
+      <span class="block h-0.5 bg-paper rounded-full transition"></span>
+    </button>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden flex-col gap-4 px-6 pb-6 glass-nav">
+    <a href="#about" class="mobile-link text-paper/70 py-1">About</a>
+    <a href="#programmes" class="mobile-link text-paper/70 py-1">Programmes</a>
+    <a href="#contact" class="mobile-link text-paper/70 py-1">Contact</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+  <video autoplay muted playsinline loop class="hero-video">
+    <source src="analyst-bg.mp4" type="video/mp4">
+  </video>
+
+  <div class="absolute inset-0 z-[2] pointer-events-none" style="background:radial-gradient(circle at 50% 50%, rgba(10,15,26,.3), rgba(10,15,26,.78));"></div>
+
+  <div class="grid-bg absolute inset-0 z-[1] opacity-40" id="grid-bg"></div>
+
+  <div class="relative z-[3] max-w-3xl mx-auto text-center px-6 py-12 rounded-3xl glass shadow-2xl">
+    <div class="reveal inline-flex items-center gap-2 glass-gold px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-widest text-gold-light mb-8">
+      <span class="w-2 h-2 rounded-full bg-gold-light pulse-dot"></span>
+      Professional Training &amp; Certification
+    </div>
+
+    <h1 class="font-display font-extrabold leading-[1.05] tracking-tight text-4xl md:text-6xl lg:text-7xl mb-6 reveal" style="transition-delay:.1s">
+      Build the Skills That <span class="grad-text">Move Your Career Forward</span>
+    </h1>
+
+    <p class="text-paper/70 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-10 reveal" style="transition-delay:.2s">
+      Practical training in business analysis, strategy, and project leadership — designed for real-world impact.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center reveal" style="transition-delay:.3s">
+      <a href="#programmes" class="px-8 py-3.5 rounded-xl font-display font-bold text-xs uppercase tracking-widest text-ink shadow-lg transition-all hover:-translate-y-1"
+         style="background:linear-gradient(135deg,#f2d9a3,#c9a35a); box-shadow:0 8px 32px rgba(201,163,90,.35);">
+        Explore Our Programmes
+      </a>
+      <a href="#contact" class="px-8 py-3.5 rounded-xl font-display font-bold text-xs uppercase tracking-widest glass text-paper hover:border-gold-light/60 hover:text-gold-light transition-all hover:-translate-y-1">
+        Talk to Us
+      </a>
+    </div>
+
+    <div class="flex justify-center gap-10 mt-10 pt-8 border-t border-white/10 reveal" style="transition-delay:.4s">
+      <div><div class="font-display font-extrabold text-2xl grad-text">3</div><div class="text-[11px] uppercase tracking-wider text-paper/50">Career Tracks</div></div>
+      <div><div class="font-display font-extrabold text-2xl grad-text">2</div><div class="text-[11px] uppercase tracking-wider text-paper/50">Global Certifications</div></div>
+      <div><div class="font-display font-extrabold text-2xl grad-text">Real-World</div><div class="text-[11px] uppercase tracking-wider text-paper/50">Practical Training</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 z-[4] cursor-pointer">
+    <span class="block text-paper/40 text-2xl" style="animation:bounce 2s ease-in-out infinite;">↓</span>
+  </div>
+</section>
+
+<style>
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+</style>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="relative py-24 px-6 lg:px-12">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <div class="reveal relative">
+      <div class="aspect-[4/5] rounded-3xl glass-card flex items-center justify-center overflow-hidden relative">
+        <div class="absolute inset-0" style="background:linear-gradient(135deg, rgba(201,163,90,.1), transparent);"></div>
+        <svg width="110" height="110" viewBox="0 0 24 24" fill="none" class="opacity-25 relative z-10">
+          <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="#e8c887" stroke-width="1.1" stroke-linejoin="round"/>
+          <path d="M6 11v5c0 1.5 3 3.5 6 3.5s6-2 6-3.5v-5" stroke="#e8c887" stroke-width="1.1"/>
+        </svg>
+      </div>
+      <div class="absolute -bottom-6 -right-6 px-6 py-4 rounded-2xl text-center font-display font-extrabold glass-gold text-gold-light shadow-2xl">
+        <span class="block text-lg">PMP &amp; CBAP</span>
+        <span class="text-[11px] uppercase tracking-wide text-paper/70">Aligned Curriculum</span>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="inline-flex items-center gap-2 text-gold-light text-xs font-bold uppercase tracking-widest mb-4">
+        <span class="w-6 h-px bg-gold-light"></span> Learn. Apply. Advance.
+      </div>
+      <h2 class="font-display font-extrabold text-3xl md:text-5xl leading-tight mb-6">
+        Grow into the <span class="grad-text">role you want</span> next
+      </h2>
+      <div class="w-12 h-1 rounded-full mb-8" style="background:linear-gradient(90deg,#c9a35a,transparent);"></div>
+
+      <p class="text-paper/60 leading-relaxed mb-8">Global Analyst Academy helps professionals develop the skills needed to think clearly, make better decisions, and grow into higher roles.</p>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Strategic Thinking</div>
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Business Analysis</div>
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Decision-Making</div>
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Career Growth</div>
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Global Standards</div>
+        <div class="glass-card rounded-xl px-4 py-3 flex items-center gap-3 text-sm">Certification Prep</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMMES ============ -->
+<section id="programmes" class="relative py-24 px-6 lg:px-12" style="background:rgba(255,255,255,0.015);">
+  <div class="max-w-6xl mx-auto">
+    <div class="inline-flex items-center gap-2 text-gold-light text-xs font-bold uppercase tracking-widest mb-4 reveal">
+      <span class="w-6 h-px bg-gold-light"></span> Programmes
+    </div>
+    <h2 class="font-display font-extrabold text-3xl md:text-5xl mb-4 reveal">Find the Right <span class="grad-text">Programme</span> for Your Next Step</h2>
+    <p class="text-paper/50 max-w-xl mb-12 reveal">Three paths, one goal — helping you think sharper, work smarter, and advance faster.</p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- GATP -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col reveal">
+        <div class="w-14 h-14 rounded-2xl glass-gold flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" stroke="#e8c887" stroke-width="1.4"/><path d="M8 12h8M8 16h5" stroke="#e8c887" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-2">Global Analyst Training Program</h3>
+        <div class="text-[11px] uppercase tracking-wide text-gold-light/80 mb-4">Mini-MBA</div>
+        <p class="text-paper/50 text-sm leading-relaxed mb-5">Develop strategic thinking, business analysis and decision-making skills to prepare for higher-level professional roles.</p>
+        <ul class="space-y-2 text-sm text-paper/50 flex-1 mb-6">
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Strategic frameworks</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Executive-level thinking</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Leadership readiness</li>
+        </ul>
+        <a href="https://globalanalystacademy.com/programmes/gatp" class="text-center py-3 rounded-xl text-xs font-display font-bold uppercase tracking-widest glass-gold text-gold-light hover:bg-gold/20 transition">Explore GATP</a>
+      </div>
+
+      <!-- ELAP -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col reveal" style="transition-delay:.1s">
+        <div class="w-14 h-14 rounded-2xl glass-gold flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3 3 8l9 5 9-5-9-5Z" stroke="#e8c887" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 11v5c0 1.1 2.2 3 5 3s5-1.9 5-3v-5" stroke="#e8c887" stroke-width="1.4"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-2">Entry Level Analyst Program</h3>
+        <div class="text-[11px] uppercase tracking-wide text-gold-light/80 mb-4">For New Analysts</div>
+        <p class="text-paper/50 text-sm leading-relaxed mb-5">Build practical analyst skills and gain the clarity and confidence to start your professional career.</p>
+        <ul class="space-y-2 text-sm text-paper/50 flex-1 mb-6">
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Foundational analyst skills</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Real-world case practice</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Career-start confidence</li>
+        </ul>
+        <a href="https://globalanalystacademy.com/programmes/elap" class="text-center py-3 rounded-xl text-xs font-display font-bold uppercase tracking-widest glass-gold text-gold-light hover:bg-gold/20 transition">Explore ELAP</a>
+      </div>
+
+      <!-- Certifications -->
+      <div class="glass-card rounded-2xl p-8 flex flex-col reveal" style="transition-delay:.2s">
+        <div class="w-14 h-14 rounded-2xl glass-gold flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="5.5" stroke="#e8c887" stroke-width="1.4"/><path d="M9 13.5 7.5 20l4.5-2.2 4.5 2.2-1.5-6.5" stroke="#e8c887" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-2">Professional Certifications</h3>
+        <div class="text-[11px] uppercase tracking-wide text-gold-light/80 mb-4">PMP &amp; CBAP</div>
+        <p class="text-paper/50 text-sm leading-relaxed mb-5">Strengthen your professional credibility with globally recognised project management and business analysis certifications.</p>
+        <ul class="space-y-2 text-sm text-paper/50 flex-1 mb-6">
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Globally recognised credentials</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Exam-focused preparation</li>
+          <li class="flex gap-2"><span class="text-gold-light">→</span>Employer-trusted standards</li>
+        </ul>
+        <div class="flex gap-3">
+          <a href="https://globalanalystacademy.com/programmes/pmp" class="flex-1 text-center py-3 rounded-xl text-xs font-display font-bold uppercase tracking-widest glass-gold text-gold-light hover:bg-gold/20 transition">PMP</a>
+          <a href="https://globalanalystacademy.com/programmes/cbap" class="flex-1 text-center py-3 rounded-xl text-xs font-display font-bold uppercase tracking-widest glass-gold text-gold-light hover:bg-gold/20 transition">CBAP</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="relative py-24 px-6 lg:px-12">
+  <div class="max-w-3xl mx-auto text-center reveal glass-card rounded-3xl p-14">
+    <h2 class="font-display font-extrabold text-3xl md:text-5xl mb-4">Ready to take the <span class="grad-text">next step</span>?</h2>
+    <p class="text-paper/50 mb-8 max-w-md mx-auto">Choose the programme that fits where you are — and where you're headed.</p>
+    <a href="#programmes" class="inline-block px-9 py-3.5 rounded-xl font-display font-bold text-xs uppercase tracking-widest text-ink transition-all hover:-translate-y-1"
+       style="background:linear-gradient(135deg,#f2d9a3,#c9a35a); box-shadow:0 8px 32px rgba(201,163,90,.35);">
+      Explore GAA Programmes
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="relative border-t border-white/10 py-10 px-6 lg:px-12">
+  <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-6">
+    <div class="flex items-center gap-2.5">
+      <svg width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" stroke="#c9a35a" stroke-opacity="0.6"/>
+        <path d="M9 20L15 8L21 20" stroke="#e8c887" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M11.2 15.6H18.8" stroke="#e8c887" stroke-width="1.5"/>
+      </svg>
+      <div>
+        <div class="font-display font-extrabold text-sm"><span class="grad-text">GAA</span> <span class="text-paper">ACADEMY</span></div>
+        <div class="text-xs text-paper/40 mt-1">+234 808 616 4748</div>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-6 text-sm text-paper/50">
+      <a href="#" class="hover:text-gold-light transition">Privacy Policy</a>
+      <a href="#contact" class="hover:text-gold-light transition">Contact</a>
+      <a href="https://globalanalystacademy.com" class="hover:text-gold-light transition">Existing Website</a>
+      <a href="https://learn.globalanalystacademy.com" class="hover:text-gold-light transition">Learning Portal</a>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto border-t border-white/10 mt-8 pt-6 text-center text-xs text-paper/30">
+    © <span id="year"></span> Global Analyst Academy. All rights reserved.
+  </div>
+</footer>
+
+<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-7 right-7 z-40 w-12 h-12 rounded-full glass-gold text-gold-light flex items-center justify-center opacity-0 pointer-events-none transition-all shadow-xl">↑</button>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ===== NAV SCROLL STATE ===== */
+  window.addEventListener('scroll', () => {
+    const backTop = document.getElementById('backTop');
+    if (window.scrollY > 200) {
+      backTop.classList.remove('opacity-0','pointer-events-none');
+      backTop.classList.add('opacity-100');
+    } else {
+      backTop.classList.add('opacity-0','pointer-events-none');
+      backTop.classList.remove('opacity-100');
+    }
+  });
+
+  /* ===== MOBILE MENU ===== */
+  const ham = document.getElementById('hamburger');
+  const mm = document.getElementById('mobileMenu');
+  ham.addEventListener('click', () => mm.classList.toggle('hidden'));
+  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mm.classList.add('hidden')));
+
+  /* ===== SCROLL REVEAL ===== */
+  const obs = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  }), { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* ===== GRID LINES (hero) ===== */
+  function generateGrid() {
+    const gridBg = document.getElementById('grid-bg');
+    const spacing = window.innerWidth / 8;
+    for (let i = 0; i < 8; i++) {
+      const line = document.createElement('div');
+      line.className = 'grid-line vertical';
+      line.style.left = (i * spacing) + 'px';
+      line.style.animationDelay = (i * 0.1) + 's';
+      gridBg.appendChild(line);
+    }
+    for (let i = 0; i < 5; i++) {
+      const line = document.createElement('div');
+      line.className = 'grid-line';
+      line.style.top = ((i + 1) * 20) + '%';
+      line.style.width = '100%';
+      line.style.animationDelay = (i * 0.2) + 's';
+      gridBg.appendChild(line);
+    }
+  }
+  generateGrid();
+
+  document.querySelector('.scroll-indicator').addEventListener('click', () => {
+    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
