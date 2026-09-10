@@ -123,23 +123,11 @@
     opacity:0.95;
   }
 
-  /* Programmes section background media (image or video) — fills the
-     section behind the dark overlay, same technique as the hero. */
-  .programmes-bg-media {
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; z-index:0;
-    opacity:0.6;
-  }
-
-  /* Mobile: run a single video only (two simultaneous autoplaying videos
-     commonly fail silently on phones). Foreground video switches to cover
-     so there's no letterbox gap without the blurred backdrop layer. */
   @media (max-width: 767px) {
     .hero-video-bg { display:none; }
     .hero-video-fg { object-fit:cover; opacity:1; }
   }
 
-  /* Overlay: lighter on mobile so video is visible, darker on desktop for text contrast */
   .overlay-gradient {
     background: radial-gradient(circle at 50% 50%, rgba(10,15,26,.15), rgba(10,15,26,.5));
   }
@@ -147,6 +135,69 @@
     .overlay-gradient {
       background: radial-gradient(circle at 50% 50%, rgba(10,15,26,.3), rgba(10,15,26,.78));
     }
+  }
+
+  /* ===== PROGRAMMES SLIDESHOW ===== */
+  .programmes-slideshow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    /* Ken Burns base — JS toggles zoom-in or zoom-out per slide */
+  }
+  .slide.active {
+    opacity: 1;
+  }
+  @keyframes kenburns-in {
+    0%   { transform: scale(1);    transform-origin: center center; }
+    100% { transform: scale(1.12); transform-origin: center center; }
+  }
+  @keyframes kenburns-out {
+    0%   { transform: scale(1.12); transform-origin: 60% 40%; }
+    100% { transform: scale(1);    transform-origin: 60% 40%; }
+  }
+  @keyframes kenburns-pan {
+    0%   { transform: scale(1.08); transform-origin: 30% 60%; }
+    100% { transform: scale(1.14); transform-origin: 70% 40%; }
+  }
+  .slide.kb-in  { animation: kenburns-in  7s ease-in-out forwards; }
+  .slide.kb-out { animation: kenburns-out 7s ease-in-out forwards; }
+  .slide.kb-pan { animation: kenburns-pan 7s ease-in-out forwards; }
+
+  /* Slideshow dots */
+  .slide-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: 8px;
+  }
+  .slide-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: background .3s, transform .3s;
+  }
+  .slide-dot.active {
+    background: #00d4ff;
+    border-color: #00d4ff;
+    transform: scale(1.3);
   }
 
   ::-webkit-scrollbar { width: 8px; }
@@ -161,13 +212,8 @@
 <!-- ============ NAVBAR ============ -->
 <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
   <div class="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2.5 font-display font-extrabold text-lg tracking-wide">
-      <svg width="28" height="28" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" stroke="#00d4ff" stroke-opacity="0.6"/>
-        <path d="M9 20L15 8L21 20" stroke="#33e0ff" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M11.2 15.6H18.8" stroke="#33e0ff" stroke-width="1.5"/>
-      </svg>
-      <span class="grad-text">GAA</span><span class="text-paper"> ACADEMY</span>
+    <a href="#" class="flex items-center">
+      <img src="logo.jpg" alt="Global Analyst Academy" class="h-10 w-auto">
     </a>
     <ul class="hidden md:flex gap-8 text-xs uppercase tracking-widest font-medium text-paper/60">
       <li><a href="#about" class="hover:text-cyan-light transition">About</a></li>
@@ -198,8 +244,8 @@
   </video>
 
   <div class="absolute inset-0 z-[2] pointer-events-none overlay-gradient"></div>
-
   <div class="grid-bg absolute inset-0 z-[1] opacity-40" id="grid-bg"></div>
+
   <div class="relative z-[3] max-w-3xl mx-auto text-center px-6 pt-24 pb-12 sm:pt-12 rounded-3xl glass shadow-2xl">
     <div class="reveal inline-flex flex-wrap items-center justify-center gap-2 glass-cyan px-4 py-2 rounded-lg text-[10px] sm:text-[11px] font-bold uppercase tracking-wide sm:tracking-widest text-cyan-light mb-8 max-w-[90%] mx-auto text-center">
       <span class="w-2 h-2 rounded-full bg-cyan-light pulse-dot shrink-0"></span>
@@ -274,7 +320,7 @@
         Career Advancement
       </span>
       <span class="value-chip reveal" style="transition-delay:.35s">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="5.5" stroke="#33e0ff" stroke-width="1.6"/><path d="M9 13.5 7.5 20l4.5-2.2 4.5 2.2-1.5-6.5" stroke="#33e0ff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="5.5" stroke="#33e0ff" stroke-width="1.6"/><path d="M9 13.5 7.5 20l4.5-2.2 4.5 2.2-1.5-6.5" stroke="#33e0ff" stroke-width="1.4" stroke-linejoin="round"/></svg>
         Certification Prep
       </span>
     </div>
@@ -284,17 +330,21 @@
 <!-- ============ PROGRAMMES ============ -->
 <section id="programmes" class="relative py-16 px-6 lg:px-12 overflow-hidden">
 
-  <!-- Background media layer: drop a video OR image in here.
-       For a video, uncomment the <video> block and remove the <img> line.
-       For an image, just set the src below. Either fills this section exactly like the hero. -->
-  <img src="programmes-bg.jpg" alt="" class="programmes-bg-media" aria-hidden="true">
-  <!--
-  <video autoplay muted playsinline loop class="programmes-bg-media">
-    <source src="programmes-bg.mp4" type="video/mp4">
-  </video>
-  -->
+  <!-- Slideshow background -->
+  <div class="programmes-slideshow" aria-hidden="true">
+    <div class="slide" style="background-image:url('bg1.jpg');"></div>
+    <div class="slide" style="background-image:url('bg2.jpg');"></div>
+    <div class="slide" style="background-image:url('bg3.jpg');"></div>
+  </div>
 
-  <div class="absolute inset-0 z-[1] pointer-events-none" style="background:radial-gradient(circle at 50% 30%, rgba(10,15,26,.55), rgba(10,15,26,.92));"></div>
+  <!-- Slideshow dots -->
+  <div class="slide-dots">
+    <button class="slide-dot active" aria-label="Slide 1"></button>
+    <button class="slide-dot" aria-label="Slide 2"></button>
+    <button class="slide-dot" aria-label="Slide 3"></button>
+  </div>
+
+  <div class="absolute inset-0 z-[1] pointer-events-none" style="background:radial-gradient(circle at 50% 30%, rgba(10,15,26,.55), rgba(10,15,26,.88));"></div>
   <div class="grid-bg absolute inset-0 z-[1] opacity-25" id="programmes-grid"></div>
 
   <div class="relative z-[2] max-w-6xl mx-auto">
@@ -375,11 +425,7 @@
 <footer id="contact" class="relative border-t border-white/10 py-8 px-6 lg:px-12">
   <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-6">
     <div class="flex items-center gap-2.5">
-      <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" stroke="#00d4ff" stroke-opacity="0.6"/>
-        <path d="M9 20L15 8L21 20" stroke="#33e0ff" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M11.2 15.6H18.8" stroke="#33e0ff" stroke-width="1.5"/>
-      </svg>
+      <img src="logo.jpg" alt="Global Analyst Academy" class="h-8 w-auto">
       <span class="text-sm text-paper/60">+234 808 616 4748</span>
     </div>
     <div class="flex flex-wrap gap-5 text-sm text-paper/50">
@@ -398,9 +444,7 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* ===== MOBILE AUTOPLAY FALLBACK =====
-     Some mobile browsers ignore the autoplay attribute even when muted.
-     Force play on load, and again on first touch as a last resort. */
+  /* ===== MOBILE AUTOPLAY FALLBACK ===== */
   document.querySelectorAll('video').forEach(v => {
     const tryPlay = () => v.play().catch(() => {});
     tryPlay();
@@ -436,7 +480,7 @@
   }), { threshold: .1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  /* ===== GRID LINES (hero) ===== */
+  /* ===== GRID LINES ===== */
   function generateGrid(elementId) {
     const gridBg = document.getElementById(elementId);
     if (!gridBg) return;
@@ -463,6 +507,35 @@
   document.querySelector('.scroll-indicator').addEventListener('click', () => {
     window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
   });
+
+  /* ===== PROGRAMMES SLIDESHOW ===== */
+  (function() {
+    const slides = document.querySelectorAll('.programmes-slideshow .slide');
+    const dots   = document.querySelectorAll('.slide-dot');
+    const kbClasses = ['kb-in', 'kb-out', 'kb-pan'];
+    let current = 0;
+
+    function goTo(index) {
+      slides[current].classList.remove('active', ...kbClasses);
+      dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      const kb = kbClasses[current % kbClasses.length];
+      slides[current].classList.add('active', kb);
+      dots[current].classList.add('active');
+    }
+
+    // Init first slide
+    slides[0].classList.add('active', 'kb-in');
+    dots[0].classList.add('active');
+
+    // Auto-advance every 4 seconds — always running, no pause on hover
+    setInterval(() => goTo(current + 1), 4000);
+
+    // Dot click — manual override
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+  })();
 </script>
 
 </body>
