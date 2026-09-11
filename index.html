@@ -305,6 +305,8 @@
                 box-shadow 0.25s ease;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    border: none;
   }
   .btn-primary::before {
     content: '';
@@ -320,6 +322,11 @@
   }
   .btn-primary:hover::before { opacity: 1; }
   .btn-primary:active { transform: translateY(-1px); }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
 
   .btn-secondary {
     display: inline-block;
@@ -430,6 +437,7 @@
   ============================================= */
   .card-cta {
     display: block;
+    width: 100%;
     text-align: center;
     padding: 12px;
     border-radius: 10px;
@@ -443,6 +451,8 @@
     border: 1px solid rgba(0,212,255,0.2);
     transition: background 0.25s ease, border-color 0.25s ease,
                 box-shadow 0.25s ease, transform 0.25s ease;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
   }
   .card-cta:hover {
     background: rgba(0,212,255,0.14);
@@ -583,7 +593,7 @@
   ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.65); }
 
   /* Focus */
-  a:focus-visible, button:focus-visible {
+  a:focus-visible, button:focus-visible, input:focus-visible {
     outline: 2px solid var(--cyan-light);
     outline-offset: 3px;
     border-radius: 4px;
@@ -615,6 +625,183 @@
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(7px); }
   }
+
+  /* =============================================
+     LEAD CAPTURE MODAL
+  ============================================= */
+  .lead-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(5,7,13,0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .lead-modal-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .lead-modal {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(160deg, rgba(17,26,43,0.98) 0%, rgba(10,15,26,0.98) 100%);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top-color: rgba(255,255,255,0.16);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.6), 0 0 60px rgba(0,212,255,0.06);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+  }
+  .lead-modal-backdrop.open .lead-modal {
+    transform: translateY(0) scale(1);
+  }
+  .lead-modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(241,237,227,0.6);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .lead-modal-close:hover {
+    background: rgba(0,212,255,0.1);
+    border-color: rgba(0,212,255,0.3);
+    color: var(--cyan-light);
+  }
+  .lead-modal-eyebrow {
+    font-family: 'Sora', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0,212,255,0.75);
+    margin-bottom: 8px;
+  }
+  .lead-modal h3 {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .lead-modal p.lead-sub {
+    color: rgba(241,237,227,0.5);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+  .lead-field {
+    margin-bottom: 16px;
+  }
+  .lead-field label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(241,237,227,0.55);
+    margin-bottom: 6px;
+  }
+  .lead-field input[type="text"],
+  .lead-field input[type="email"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #f1ede3;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .lead-field input::placeholder { color: rgba(241,237,227,0.28); }
+  .lead-field input:focus {
+    outline: none;
+    border-color: rgba(0,212,255,0.5);
+    background: rgba(0,212,255,0.04);
+  }
+  .lead-field input.error {
+    border-color: rgba(255,100,100,0.6);
+  }
+  .lead-error-msg {
+    display: none;
+    font-size: 11.5px;
+    color: #ff8f8f;
+    margin-top: 6px;
+  }
+  .lead-error-msg.show { display: block; }
+
+  .lead-consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .lead-consent input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    accent-color: #00d4ff;
+    cursor: pointer;
+  }
+  .lead-consent label {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: rgba(241,237,227,0.55);
+    cursor: pointer;
+  }
+
+  .lead-modal-submitting { opacity: 0.7; pointer-events: none; }
+
+  /* Success state */
+  .lead-success {
+    display: none;
+    text-align: center;
+    padding: 12px 0 4px;
+  }
+  .lead-success.show { display: block; }
+  .lead-success-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .lead-success h3 {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  .lead-success p {
+    color: rgba(241,237,227,0.5);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .lead-form-body.hide { display: none; }
 </style>
 </head>
 <body>
@@ -816,7 +1003,7 @@
           <li class="flex gap-2.5 items-start"><span style="color:#33e0ff;flex-shrink:0;margin-top:1px;">→</span><span style="color:rgba(241,237,227,0.55);">Executive-level thinking</span></li>
           <li class="flex gap-2.5 items-start"><span style="color:#33e0ff;flex-shrink:0;margin-top:1px;">→</span><span style="color:rgba(241,237,227,0.55);">Leadership readiness</span></li>
         </ul>
-        <a href="https://globalanalystacademy.com/programmes/gatp" class="card-cta">Explore GATP</a>
+        <button type="button" class="card-cta" data-course="GATP" data-dest="https://globalanalystacademy.com/programmes/gatp">Explore GATP</button>
       </div>
 
       <!-- ELAP -->
@@ -833,7 +1020,7 @@
           <li class="flex gap-2.5 items-start"><span style="color:#33e0ff;flex-shrink:0;margin-top:1px;">→</span><span style="color:rgba(241,237,227,0.55);">Real-world case practice</span></li>
           <li class="flex gap-2.5 items-start"><span style="color:#33e0ff;flex-shrink:0;margin-top:1px;">→</span><span style="color:rgba(241,237,227,0.55);">Career-start confidence</span></li>
         </ul>
-        <a href="https://globalanalystacademy.com/programmes/elap" class="card-cta">Explore ELAP</a>
+        <button type="button" class="card-cta" data-course="ELAP" data-dest="https://globalanalystacademy.com/programmes/elap">Explore ELAP</button>
       </div>
 
       <!-- Certifications -->
@@ -851,8 +1038,8 @@
           <li class="flex gap-2.5 items-start"><span style="color:#33e0ff;flex-shrink:0;margin-top:1px;">→</span><span style="color:rgba(241,237,227,0.55);">Employer-trusted standards</span></li>
         </ul>
         <div class="flex gap-3">
-          <a href="https://globalanalystacademy.com/programmes/pmp" class="card-cta flex-1">PMP</a>
-          <a href="https://globalanalystacademy.com/programmes/cbap" class="card-cta flex-1">CBAP</a>
+          <button type="button" class="card-cta flex-1" data-course="PMP" data-dest="https://globalanalystacademy.com/programmes/pmp">PMP</button>
+          <button type="button" class="card-cta flex-1" data-course="CBAP" data-dest="https://globalanalystacademy.com/programmes/cbap">CBAP</button>
         </div>
       </div>
 
@@ -906,6 +1093,49 @@
 
 <!-- Back to top -->
 <button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 z-40" aria-label="Back to top">↑</button>
+
+<!-- ============ LEAD CAPTURE MODAL ============ -->
+<div id="leadModalBackdrop" class="lead-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+  <div class="lead-modal">
+    <button type="button" class="lead-modal-close" id="leadModalClose" aria-label="Close">✕</button>
+
+    <!-- Form state -->
+    <div class="lead-form-body" id="leadFormBody">
+      <div class="lead-modal-eyebrow" id="leadModalEyebrow">Global Analyst Academy</div>
+      <h3 id="leadModalTitle">Before you continue to <span id="leadCourseName">this programme</span></h3>
+      <p class="lead-sub">Leave your details and we'll send you the full programme guide, plus updates on intakes, fees and scholarships.</p>
+
+      <form id="leadForm" novalidate>
+        <div class="lead-field">
+          <label for="leadName">Full name</label>
+          <input type="text" id="leadName" name="name" placeholder="e.g. Ada Obi" autocomplete="name" required>
+          <div class="lead-error-msg" id="leadNameError">Please enter your name.</div>
+        </div>
+        <div class="lead-field">
+          <label for="leadEmail">Email address</label>
+          <input type="email" id="leadEmail" name="email" placeholder="e.g. ada@example.com" autocomplete="email" required>
+          <div class="lead-error-msg" id="leadEmailError">Please enter a valid email address.</div>
+        </div>
+        <div class="lead-consent">
+          <input type="checkbox" id="leadConsent" name="consent" required>
+          <label for="leadConsent">I agree to receive information about programmes, intakes and offers from Global Analyst Academy by email.</label>
+        </div>
+        <div class="lead-error-msg" id="leadConsentError" style="margin-top:-14px;margin-bottom:16px;">Please confirm you'd like to receive info from us.</div>
+
+        <button type="submit" class="btn-primary" style="width:100%;" id="leadSubmitBtn">Continue to programme</button>
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div class="lead-success" id="leadSuccess">
+      <div class="lead-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6" stroke="#33e0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Thanks — you're all set</h3>
+      <p>We've got your details. Taking you to the programme page now…</p>
+    </div>
+  </div>
+</div>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -1001,6 +1231,132 @@
     dots[0].classList.add('active');
     setInterval(() => goTo(current + 1), 4000);
     dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+  })();
+
+  /* =============================================
+     LEAD CAPTURE MODAL LOGIC
+     Every course CTA opens this modal first. On valid
+     submit, it shows a thank-you state, then redirects
+     to the course's destination URL after a short delay.
+  ============================================= */
+  (function () {
+    const backdrop     = document.getElementById('leadModalBackdrop');
+    const closeBtn      = document.getElementById('leadModalClose');
+    const form           = document.getElementById('leadForm');
+    const formBody       = document.getElementById('leadFormBody');
+    const successState   = document.getElementById('leadSuccess');
+    const courseNameEl   = document.getElementById('leadCourseName');
+    const nameInput      = document.getElementById('leadName');
+    const emailInput     = document.getElementById('leadEmail');
+    const consentInput   = document.getElementById('leadConsent');
+    const nameError      = document.getElementById('leadNameError');
+    const emailError     = document.getElementById('leadEmailError');
+    const consentError   = document.getElementById('leadConsentError');
+    const submitBtn      = document.getElementById('leadSubmitBtn');
+
+    let pendingDestination = null;
+    let lastFocusedTrigger = null;
+
+    // Friendly display names per course code, shown in the modal heading.
+    const courseDisplayNames = {
+      GATP: 'the Global Analyst Training Program',
+      ELAP: 'the Entry Level Analyst Program',
+      PMP: 'the PMP Certification',
+      CBAP: 'the CBAP Certification'
+    };
+
+    function openModal(courseCode, destination) {
+      pendingDestination = destination;
+      courseNameEl.textContent = courseDisplayNames[courseCode] || 'this programme';
+      resetForm();
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => nameInput.focus(), 200);
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastFocusedTrigger) lastFocusedTrigger.focus();
+    }
+
+    function resetForm() {
+      form.reset();
+      formBody.classList.remove('hide');
+      successState.classList.remove('show');
+      clearErrors();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Continue to programme';
+    }
+
+    function clearErrors() {
+      [nameInput, emailInput].forEach(i => i.classList.remove('error'));
+      [nameError, emailError, consentError].forEach(e => e.classList.remove('show'));
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    // Wire up every course CTA to open the modal instead of navigating directly.
+    document.querySelectorAll('.card-cta[data-course]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        lastFocusedTrigger = btn;
+        openModal(btn.dataset.course, btn.dataset.dest);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      let valid = true;
+      if (!nameInput.value.trim()) {
+        nameInput.classList.add('error');
+        nameError.classList.add('show');
+        valid = false;
+      }
+      if (!isValidEmail(emailInput.value.trim())) {
+        emailInput.classList.add('error');
+        emailError.classList.add('show');
+        valid = false;
+      }
+      if (!consentInput.checked) {
+        consentError.classList.add('show');
+        valid = false;
+      }
+      if (!valid) return;
+
+      // Lead payload — currently just logged. Wire this to your form
+      // endpoint / CRM / email tool when ready (e.g. fetch() POST).
+      const lead = {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        consent: true,
+        destination: pendingDestination,
+        submittedAt: new Date().toISOString()
+      };
+      console.log('Lead captured:', lead);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      // Show thank-you state, then redirect to the course page.
+      formBody.classList.add('hide');
+      successState.classList.add('show');
+
+      setTimeout(() => {
+        window.location.href = pendingDestination;
+      }, 1800);
+    });
   })();
 </script>
 
